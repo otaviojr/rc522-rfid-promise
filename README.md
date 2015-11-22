@@ -1,8 +1,12 @@
 #rc522-rfid
-node.js module to access a rfid reader with rc522 chipset which is connected a raspberry pi
+Module to access an rfid reader with rc522 chipset connected to a raspberry pi. Using promises.
+
+## Fork of
+This is a fork with added functionality. For a nice and simpler module please see the original 
+[https://www.npmjs.com/package/rc522-rfid](https://www.npmjs.com/package/rc522-rfid)
 
 ## Purpose
-This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via GPIO interface of the raspberry pi.
+This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via SPI interface of the raspberry pi.
 
 ## Functionality
 The module is currently only able to read the serial number of the tag which is hold onto the reader.
@@ -23,14 +27,27 @@ sudo make install
 ```
 Then we can install the rc522 rfid nodejs module
 ```
-npm install --save rc522-rfid
+npm install --save rc522-rfid-promise
+```
+
+## Api
+```
+startListening(timeout)
+// timeout is optional
+// returns a promise
+
+stopListening()
+// closes the child process and rejects the promise if still unresolved
+
+
 ```
 
 ## Usage
 ```
-var rc522 = require("rc522-rfid");
+var rc522 = require("rc522-rfid-promise");
 
-rc522(function(rfidSerialNumber){
-	console.log(rfidSerialNumber);
-});
+rc522.startListening(5000)
+	.then(function(rfidTag){
+    	console.log(rfidTag);
+	});
 ```

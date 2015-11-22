@@ -1,18 +1,19 @@
 {
   "author": {
-    "name": "Sascha Brinkmann",
-    "email": "sascha.brinkmann@gmail.com"
+    "name": "Mitchell Parsons",
+    "email": "mitchell.parsons@gmail.com"
   },
-  "name": "rc522-rfid",
-  "description": "node.js module to access a rfid reader with rc522 chipset which is connected a raspberry pi",
+  "name": "rc522-rfid-promise",
+  "description": "Module to access an rfid reader with rc522 chipset connected to a raspberry pi. Using promises.",
   "keywords": [
     "rfid",
-    "rc522"
+    "rc522",
+    "raspberry"
   ],
-  "version": "14.1.10",
+  "version": "15.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sbrinkmann/rc522-rfid.git"
+    "url": "https://github.com/mitchellparsons/rc522-rfid-promise.git"
   },
   "scripts": {
     "install": "(node-gyp rebuild) || (exit 0)",
@@ -25,12 +26,13 @@
     "node": ">=0.8.0 <0.13.0"
   },
   "dependencies": {
+    "q": "^1.4.1"
   },
   "optionalDependencies": {
   },
   "gitHead": "",
   "bugs": {
-    "url": "https://github.com/sbrinkmann/rc522-rfid/issues"
+    "url": "https://github.com/mitchellparsons/rc522-rfid-promise/issues"
   },
   "homepage": "",
   "directories": {}
