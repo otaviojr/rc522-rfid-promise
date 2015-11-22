@@ -94,8 +94,8 @@ uint8_t initRfidReader(void) {
         uint16_t sp;
 
         sp=(uint16_t)(250000L / DEFAULT_SPI_SPEED);
-//	sp=(uint16_t)64; worked
-	// sp=(uint16_t)2048;
+//      sp=(uint16_t)64; worked
+         sp=(uint16_t)2048;
         if (!bcm2835_init()) {
                 return 1;
         }
