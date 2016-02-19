@@ -8,7 +8,6 @@
         "src/accessor.cc"
       ],
       "libraries": [
-        "-lbcm2835"
       ]
     }
   ]

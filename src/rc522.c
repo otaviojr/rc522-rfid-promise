@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "bcm2835.h"
+#include <linux/spi/spidev.h>
 #include "rc522.h"
 
 uint8_t debug = 0;
@@ -271,19 +271,56 @@ char M500PcdConfigISOType(uint8_t   type)
 
 uint8_t ReadRawRC(uint8_t Address)
 {
-	char buff[2];
+	char buff[1];
+	struct spi_ioc_transfer xfer[2];
+
 	buff[0] = ((Address<<1)&0x7E)|0x80;
-	bcm2835_spi_transfern(buff,2);
-	return (uint8_t)buff[1];
+
+	xfer[0].tx_buf = (unsigned long)buff;
+  xfer[0].len = 1;
+
+	xfer[1].rx_buf = (unsigned long) buff;
+  xfer[1].len = 1;
+
+	status = ioctl(fd, SPI_IOC_MESSAGE(2), xfer);
+	if (status < 0) {
+		perror("SPI_IOC_MESSAGE");
+		return;
+	}
+
+	printf("response(%d): ", status);
+	for (bp = buf; len; len--)
+		printf("%02x ", *bp++);
+	printf("\n");
+
+	//bcm2835_spi_transfern(buff,2);
+	return (uint8_t)buff[0];
 }
 
 void WriteRawRC(uint8_t Address, uint8_t value)
 {
 	char buff[2];
+	struct spi_ioc_transfer xfer[2];
 
 	buff[0] = (char)((Address<<1)&0x7E);
 	buff[1] = (char)value;
-	bcm2835_spi_transfern(buff,2);
+
+	xfer[0].tx_buf = (unsigned long)buff;
+  xfer[0].len = 2;
+
+	xfer[1].rx_buf = (unsigned long) buff;
+  xfer[1].len = 0;
+
+	status = ioctl(fd, SPI_IOC_MESSAGE(2), xfer);
+	if (status < 0) {
+		perror("SPI_IOC_MESSAGE");
+		return;
+	}
+	printf("response(%d): ", status);
+	for (bp = buff; len; len--)
+		printf("%02x ", *bp++);
+	printf("\n");
+	//bcm2835_spi_transfern(buff,2);
 }
 
 void SetBitMask(uint8_t   reg,uint8_t   mask)
