@@ -2,14 +2,19 @@
 Module to access an rfid reader with rc522 chipset using linux spidev. Using promises.
 
 ## Fork of
-This is a fork with added functionality. For a nice and simpler module please see the original
+This is a fork to make the module works with many other boards through linux spidev.
+
+For a nice and simpler module, working with raspberry pi, please see the original:
+
 [https://www.npmjs.com/package/rc522-rfid](https://www.npmjs.com/package/rc522-rfid)
+
 [https://www.npmjs.com/package/rc522-rfid-promise](https://www.npmjs.com/package/rc522-rfid-promise)
 
 ## Purpose
 This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via SPI interface using the linux spidev.
 
 The original projects works only at raspberry pi, since, they used a broadcom lib to communicate with the spi.
+
 At this fork we changed it to use linux spidev instead and works with other boards like beaglebone.
 
 ## Functionality
@@ -21,6 +26,7 @@ The module is currently only able to read the serial number of the tag which is 
 - node-gyp is installed ```npm install -g node-gyp```
 
 ## Installation
+```
 npm install --save otaviojr/rc522-rfid-promise
 ```
 
@@ -32,8 +38,6 @@ startListening(timeout)
 
 stopListening()
 // closes the child process and rejects the promise if still unresolved
-
-
 ```
 
 ## Usage
