@@ -15,7 +15,7 @@ This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn
 
 The original projects works only at raspberry pi, since, they used a broadcom lib to communicate with the spi.
 
-At this fork we changed it to use linux spidev instead and works with other boards like beaglebone.
+At this fork we changed it to use linux spidev instead, working with many other boards like beaglebone.
 
 ## Functionality
 The module is currently only able to read the serial number of the tag which is hold onto the reader.
