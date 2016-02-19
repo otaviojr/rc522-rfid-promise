@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <linux/spi/spidev.h>
+#include <linux/ioctl.h>
 #include "rc522.h"
 
 uint8_t debug = 0;
@@ -309,7 +310,7 @@ void WriteRawRC(uint8_t Address, uint8_t value)
 	xfer[0].tx_buf = (unsigned long)buff;
   xfer[0].len = 2;
 
-	xfer[1].rx_buf = (unsigned long) buff;
+	xfer[1].rx_buf = (unsigned long)buff;
   xfer[1].len = 0;
 
 	status = ioctl(fd, SPI_IOC_MESSAGE(2), xfer);
