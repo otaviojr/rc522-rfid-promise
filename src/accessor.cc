@@ -32,11 +32,6 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
 
         InitRc522();
 
-        Local<Value> argv[argc] = {
-                Local<Value>::New(isolate,String::NewFromUtf8(isolate,"1234"))
-        };
-        callback->Call(isolate->GetCurrentContext()->Global(), argc, argv);
-
         for (;; ) {
                 statusRfidReader = find_tag(&CType);
                 if (statusRfidReader == TAG_NOTAG) {
