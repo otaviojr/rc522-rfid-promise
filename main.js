@@ -65,7 +65,9 @@ process.once("uncaughtException", function(error) {
     // Our assumption here is that any other code listening for an uncaught
     // exception is going to do the sensible thing and call process.exit().
     if (process.listeners("uncaughtException").length === 0) {
-        child.kill();
+        if(child != null){
+          child.kill();
+        }
         throw error;
     }
 });
