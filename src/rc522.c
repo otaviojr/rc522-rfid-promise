@@ -282,7 +282,7 @@ uint8_t ReadRawRC(uint8_t Address)
 		printf("spi read faild !--------------------------------------->\n");
 		return -1;
 	}
-	return (uint8_t)buff[1];
+	return (uint8_t)buff[0];
 }
 
 void WriteRawRC(uint8_t Address, uint8_t value)
