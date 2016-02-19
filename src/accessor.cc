@@ -1,6 +1,7 @@
 #include <node.h>
 #include <v8.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <linux/spi/spidev.h>
 #include "rfid.h"
 #include "rc522.h"
@@ -93,7 +94,7 @@ void Init(Handle<Object> exports, Handle<Object> module) {
 }
 
 uint8_t initRfidReader(void) {
-        fd = open("/dev/spidev1.0", O_RDRW);
+        fd = open("/dev/spidev1.0", O_RDWR);
         if (fd < 0) {
           perror("open");
           return 1;
