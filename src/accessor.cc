@@ -82,8 +82,9 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
                 *(p++)=0;
         }
 
-        bcm2835_spi_end();
-        bcm2835_close();
+        //bcm2835_spi_end();
+        //bcm2835_close();
+        close(fp);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {
@@ -92,7 +93,7 @@ void Init(Handle<Object> exports, Handle<Object> module) {
 }
 
 uint8_t initRfidReader(void) {
-        fd = open("/dev/spidev1.0", O_RDWR);
+        fd = open("/dev/spidev1.0", O_RDRW);
         if (fd < 0) {
           perror("open");
           return 1;
