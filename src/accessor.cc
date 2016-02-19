@@ -66,7 +66,8 @@ int
 spi_read(void* buf, int size)
 {
 	if((spi_fd == -1) || (buf == NULL) || (size <= 0)) return -1 ;
-	int size_read = read(spi_fd,buf,size) ;
+  write(spi_fd,buf[0],1);
+	int size_read = read(spi_fd,&buf[1],1) ;
 	if(size_read < 0) return -1 ;
 	return size_read ;
 }
