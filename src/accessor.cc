@@ -84,7 +84,7 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
 
         //bcm2835_spi_end();
         //bcm2835_close();
-        close(fp);
+        close(fd);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {
