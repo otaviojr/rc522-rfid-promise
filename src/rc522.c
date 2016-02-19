@@ -11,7 +11,7 @@ extern int fd;
 
 void InitRc522(void)
 {
-	printf("InitRc522");
+	//printf("InitRc522");
 	PcdReset();
 	PcdAntennaOn();
 }
@@ -290,10 +290,6 @@ uint8_t ReadRawRC(uint8_t Address)
 		perror("SPI_IOC_MESSAGE");
 		return;
 	}
-
-	printf("response(%d): ", status);
-	printf("\n");
-
 	//bcm2835_spi_transfern(buff,2);
 	return (uint8_t)buff[0];
 }
@@ -318,8 +314,6 @@ void WriteRawRC(uint8_t Address, uint8_t value)
 		perror("SPI_IOC_MESSAGE");
 		return;
 	}
-	printf("response(%d): ", status);
-	printf("\n");
 	//bcm2835_spi_transfern(buff,2);
 }
 
