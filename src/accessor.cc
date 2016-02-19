@@ -1,12 +1,17 @@
 #include <node.h>
 #include <v8.h>
 #include <unistd.h>
+
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+
+#include "accessor.h"
 #include "rfid.h"
 #include "rc522.h"
 
 #define DEFAULT_SPI_SPEED 5000L
+#define LOG_ENABLED 1
 
 uint8_t initRfidReader(void);
 
@@ -24,22 +29,84 @@ int loopCounter;
 #define  EXISTMODE         F_OK
 #define  MODE              O_RDWR
 
+static uint8_t mode = 0;
+static uint8_t bits = 8;
+static uint8_t lsb_setting = 0;
+
 static int spi_fd = -1 ;
 
 using namespace v8;
+
+void rc522_log(int log_level, const char* message){
+#if LOG_ENABLED == 1
+	FILE* fp;
+	fp = fopen("/tmp/rc522.log","a+");
+	if(fp != NULL){
+		fputs (message,fp);
+	  fclose (fp);
+	}
+#endif
+}
 
 /*
 ** Function : spi_open
 ** Note     : open spidev1.0 node for transfer
 ** return   : success return open fd else return -1
 */
-int
-spi_open()
+int spi_open()
 {
+	uint16_t sp;
+	int ret = 0;
+
+	sp=(uint16_t)(250000L / DEFAULT_SPI_SPEED);
+	sp=(uint16_t)2048;
+
 	if(access(SPIDEV,EXISTMODE) < 0) return -1 ;
 	if((spi_fd = open(SPIDEV,MODE)) < 0) return -1 ;
 
-	return spi_fd ;
+	/*
+	 * spi mode
+	 */
+	ret = ioctl(spi_fd, SPI_IOC_WR_MODE, &mode);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't set spi mode");
+
+	ret = ioctl(spi_fd, SPI_IOC_RD_MODE, &mode);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't get spi mode");
+
+	/*
+	 * bits per word
+	 */
+	ret = ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't set bits per word");
+
+	ret = ioctl(spi_fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't get bits per word");
+
+	/*
+		* max speed hz
+		*/
+	ret = ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &sp);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't set max speed hz");
+
+	ret = ioctl(spi_fd, SPI_IOC_RD_MAX_SPEED_HZ, &sp);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't get max speed hz");
+
+  /* MSB first */
+  ret = ioctl(spi_fd, SPI_IOC_WR_LSB_FIRST, &lsb_setting);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't set msb first");
+
+	ret = ioctl(spi_fd, SPI_IOC_RD_LSB_FIRST, &sp);
+	if (ret == -1)
+		rc522_log(LOG_LEVEL_ERROR,"can't get msb first");
+
+	return spi_fd;
 }
 
 /*
@@ -47,8 +114,7 @@ spi_open()
 ** Note     : close spidev1.0 opened fd
 ** return   : success return 0 else return -1
 */
-int
-spi_close()
+int spi_close()
 {
 	if(spi_fd == -1) return -1 ;
 	close(spi_fd) ;
@@ -62,11 +128,11 @@ spi_close()
 ** return     : success return read size else return -1
 */
 
-int
-spi_read(void* buf, int size)
+int spi_read(void* buf, int size)
 {
 	if((spi_fd == -1) || (buf == NULL) || (size <= 0)) return -1 ;
-  write(spi_fd,buf,1);
+  int size_write = write(spi_fd,buf,1);
+	if(size_write < 0) return -1 ;
 	int size_read = read(spi_fd,buf,2) ;
 	if(size_read < 0) return -1 ;
 	return size_read ;
@@ -77,8 +143,7 @@ spi_read(void* buf, int size)
 ** Note       :write message to spidev
 ** return     :success return write size else return -1
 */
-int
-spi_write(void* buf ,int size)
+int spi_write(void* buf ,int size)
 {
 	if((spi_fd == -1) || (NULL == buf) || (size <= 0)) return -1 ;
 	int size_write = write(spi_fd,buf,size) ;

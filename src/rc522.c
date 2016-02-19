@@ -2,8 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <linux/spi/spidev.h>
-#include <linux/ioctl.h>
+#include "accessor.h"
 #include "rc522.h"
 
 uint8_t debug = 0;
@@ -11,7 +10,7 @@ extern int fd;
 
 void InitRc522(void)
 {
-	//printf("InitRc522");
+	rc522_log(LOG_LEVEL_INFO,"InitRc522\n\n");
 	PcdReset();
 	PcdAntennaOn();
 }
@@ -279,7 +278,7 @@ uint8_t ReadRawRC(uint8_t Address)
 	memset(buff,0,2);
 	buff[0] = ((Address<<1)&0x7E)|0x80;
 	if(spi_read(buff,2) < 0) {
-		printf("spi read faild !--------------------------------------->\n");
+		rc522_log(LOG_LEVEL_ERROR,"spi read faild !--------------------------------------->\n");
 		return -1;
 	}
 	return (uint8_t)buff[0];
@@ -293,7 +292,7 @@ void WriteRawRC(uint8_t Address, uint8_t value)
 	buff[0] = (char)((Address<<1)&0x7E);
 	buff[1] = (char)value;
 	if(spi_write(buff,2) <0) {
-		printf("spi write faild !--------------------------------------->\n");
+		rc522_log(LOG_LEVEL_ERROR,"spi write faild !--------------------------------------->\n");
 		return;
 	}
 }
@@ -397,7 +396,7 @@ char PcdComMF522(uint8_t   Command,
 			status = TAG_ERR;}
 
 		if (PcdErr&0x08) {
-			if (debug) fprintf (stderr,"Collision \n");
+			if (debug)  rc522_log(LOG_LEVEL_ERROR,"Collision \n");
 			status = TAG_COLLISION;
 
 		}
