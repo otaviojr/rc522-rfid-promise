@@ -1,3 +1,5 @@
+#define LOG_ENABLED 1
+
 #define LOG_LEVEL_ERROR 1
 #define LOG_LEVEL_INFO 2
 #define LOG_LEVEL_DEBUG 3

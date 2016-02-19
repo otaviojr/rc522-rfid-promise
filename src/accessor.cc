@@ -11,7 +11,6 @@
 #include "rc522.h"
 
 #define DEFAULT_SPI_SPEED 5000L
-#define LOG_ENABLED 1
 
 uint8_t initRfidReader(void);
 
