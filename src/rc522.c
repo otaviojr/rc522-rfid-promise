@@ -273,47 +273,21 @@ char M500PcdConfigISOType(uint8_t   type)
 
 uint8_t ReadRawRC(uint8_t Address)
 {
-	char buff[1];
-	struct spi_ioc_transfer xfer[2];
-  int status;
-
+	char buff[2];
+	memset(buff,0,2);
 	buff[0] = ((Address<<1)&0x7E)|0x80;
-
-	xfer[0].tx_buf = (unsigned long)buff;
-  xfer[0].len = 1;
-
-	xfer[1].rx_buf = (unsigned long) buff;
-  xfer[1].len = 1;
-
-	status = ioctl(fd, SPI_IOC_MESSAGE(2), xfer);
-	if (status < 0) {
-		perror("SPI_IOC_MESSAGE");
-		return;
-	}
-	//bcm2835_spi_transfern(buff,2);
-	return (uint8_t)buff[0];
+	read(fd,buff,2);
+	return (uint8_t)buff[1];
 }
 
 void WriteRawRC(uint8_t Address, uint8_t value)
 {
 	char buff[2];
-	struct spi_ioc_transfer xfer[2];
-  int status;
 
 	buff[0] = (char)((Address<<1)&0x7E);
 	buff[1] = (char)value;
 
-	xfer[0].tx_buf = (unsigned long)buff;
-  xfer[0].len = 2;
-
-	xfer[1].rx_buf = (unsigned long)buff;
-  xfer[1].len = 0;
-
-	status = ioctl(fd, SPI_IOC_MESSAGE(2), xfer);
-	if (status < 0) {
-		perror("SPI_IOC_MESSAGE");
-		return;
-	}
+	write(fd,buff,2);
 	//bcm2835_spi_transfern(buff,2);
 }
 
