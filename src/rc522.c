@@ -6,6 +6,7 @@
 #include "rc522.h"
 
 uint8_t debug = 0;
+extern int fd;
 
 void InitRc522(void)
 {
@@ -273,6 +274,7 @@ uint8_t ReadRawRC(uint8_t Address)
 {
 	char buff[1];
 	struct spi_ioc_transfer xfer[2];
+  int status;
 
 	buff[0] = ((Address<<1)&0x7E)|0x80;
 
@@ -289,8 +291,6 @@ uint8_t ReadRawRC(uint8_t Address)
 	}
 
 	printf("response(%d): ", status);
-	for (bp = buf; len; len--)
-		printf("%02x ", *bp++);
 	printf("\n");
 
 	//bcm2835_spi_transfern(buff,2);
@@ -301,6 +301,7 @@ void WriteRawRC(uint8_t Address, uint8_t value)
 {
 	char buff[2];
 	struct spi_ioc_transfer xfer[2];
+  int status;
 
 	buff[0] = (char)((Address<<1)&0x7E);
 	buff[1] = (char)value;
@@ -317,8 +318,6 @@ void WriteRawRC(uint8_t Address, uint8_t value)
 		return;
 	}
 	printf("response(%d): ", status);
-	for (bp = buff; len; len--)
-		printf("%02x ", *bp++);
 	printf("\n");
 	//bcm2835_spi_transfern(buff,2);
 }
