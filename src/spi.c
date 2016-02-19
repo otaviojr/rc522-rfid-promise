@@ -11,7 +11,7 @@
 
 #define DEFAULT_SPI_SPEED 5000L
 
-#define  SPIDEV            "/dev/spidev1.0"
+//#define  SPIDEV            "/dev/spidev1.0"
 #define  EXISTMODE         F_OK
 #define  MODE              O_RDWR
 
@@ -19,7 +19,7 @@ static uint8_t mode = 0;
 static uint8_t bits = 8;
 static uint8_t lsb_setting = 0;
 
-static int spi_fd = -1 ;
+static int spi_fd = -1;
 
 void rc522_log(int log_level, const char* message){
 #if LOG_ENABLED == 1
@@ -37,7 +37,7 @@ void rc522_log(int log_level, const char* message){
 ** Note     : open spidev1.0 node for transfer
 ** return   : success return open fd else return -1
 */
-int spi_open()
+int spi_open(const char* spi_dev)
 {
 	uint16_t sp;
 	int ret = 0;
@@ -45,8 +45,18 @@ int spi_open()
 	sp=(uint16_t)(250000L / DEFAULT_SPI_SPEED);
 	sp=(uint16_t)2048;
 
-	if(access(SPIDEV,EXISTMODE) < 0) return -1 ;
-	if((spi_fd = open(SPIDEV,MODE)) < 0) return -1 ;
+	rc522_log(LOG_LEVEL_DEBUG,"SPIDEV: ");
+	rc522_log(LOG_LEVEL_DEBUG,spi_dev);
+	rc522_log(LOG_LEVEL_DEBUG,"\n");
+
+	if(access(spi_dev,EXISTMODE) < 0) {
+		rc522_log(LOG_LEVEL_ERROR,"SPIDEV not found\n");
+		return -1 ;
+	}
+	if((spi_fd = open(spi_dev,MODE)) < 0){
+		rc522_log(LOG_LEVEL_ERROR,"SPIDEV not found\n");
+		return -1 ;
+	}
 
 	/*
 	 * spi mode

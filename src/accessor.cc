@@ -6,7 +6,7 @@
 #include "rfid.h"
 #include "rc522.h"
 
-uint8_t initRfidReader(void);
+uint8_t initRfidReader(const char*);
 
 char statusRfidReader;
 uint16_t CType=0;
@@ -24,14 +24,30 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
         Isolate* isolate=Isolate::GetCurrent();
         HandleScope scope(isolate);
 
-        Local<Function> callback = Local<Function>::Cast(args[0]);
-        const unsigned argc = 1;
-
 				rc522_log(LOG_LEVEL_DEBUG,"Enter RunCallback\n");
 
+        if (args.Length() < 2) {
+          isolate->ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, "Wrong number of arguments")));
+            return;
+         }
+
+         Local<Function> callback = Local<Function>::Cast(args[0]);
+         const unsigned argc = 1;
+
+        //Check the argument types
+        if (!args[1]->IsString()) {
+          isolate->ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, "Wrong arguments")));
+            return;
+        }
+
+        Local<String> path = Local<String>::Cast(args[1]);
+        v8::String::Utf8Value spi_path(path);
+        initRfidReader(*spi_path);
         InitRc522();
 
-        for (;; ) {
+        for (;;) {
                 statusRfidReader = find_tag(&CType);
                 if (statusRfidReader == TAG_NOTAG) {
 
@@ -95,13 +111,12 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
 
 void Init(Handle<Object> exports, Handle<Object> module) {
 				rc522_log(LOG_LEVEL_DEBUG,"Enter Init\n");
-        initRfidReader();
         NODE_SET_METHOD(module,"exports",RunCallback);
 				rc522_log(LOG_LEVEL_DEBUG,"Exit Init\n");
 }
 
-uint8_t initRfidReader(void) {
-    return spi_open();
+uint8_t initRfidReader(const char* spi_dev) {
+    return spi_open(spi_dev);
 }
 
 NODE_MODULE(rc522, Init)

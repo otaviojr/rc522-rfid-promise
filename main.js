@@ -3,11 +3,22 @@ var readline = require('readline');
 var Q = require('q');
 var child = null;
 
-exports.startListening = function(timeout) {
+exports.startListening = function(timeout, custom_opts) {
+    opts = {
+      spi: "/dev/spidev1.0"
+    };
+
+    for(i in opts){
+      if(custom_opts[i] != undefined){
+        opts[i] = custom_opts[i];
+      }
+    }
+
+    var params = "-D="+opts["spi"];
     var deferred = Q.defer();
     var returnValue = 'none';
     var success = false;
-    child = spawn("node", [__dirname + "/" + "rc522_output.js"]);
+    child = spawn("node", [__dirname + "/" + "rc522_output.js",params]);
     var linereader = readline.createInterface(child.stdout, child.stdin);
 
     linereader.on('line', function(rfidTagSerialNumber) {

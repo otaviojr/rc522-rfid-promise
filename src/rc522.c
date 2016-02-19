@@ -6,7 +6,6 @@
 #include "rc522.h"
 
 uint8_t debug = 0;
-extern int fd;
 
 void InitRc522(void)
 {
