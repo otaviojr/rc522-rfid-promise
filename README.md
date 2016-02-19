@@ -1,33 +1,27 @@
-#rc522-rfid
-Module to access an rfid reader with rc522 chipset connected to a raspberry pi. Using promises.
+#rc522-rfid-promise
+Module to access an rfid reader with rc522 chipset using linux spidev. Using promises.
 
 ## Fork of
-This is a fork with added functionality. For a nice and simpler module please see the original 
+This is a fork with added functionality. For a nice and simpler module please see the original
 [https://www.npmjs.com/package/rc522-rfid](https://www.npmjs.com/package/rc522-rfid)
+[https://www.npmjs.com/package/rc522-rfid-promise](https://www.npmjs.com/package/rc522-rfid-promise)
 
 ## Purpose
-This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via SPI interface of the raspberry pi.
+This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via SPI interface using the linux spidev.
+
+The original projects works only at raspberry pi, since, they used a broadcom lib to communicate with the spi.
+At this fork we changed it to use linux spidev instead and works with other boards like beaglebone.
 
 ## Functionality
 The module is currently only able to read the serial number of the tag which is hold onto the reader.
 
 ## Requirements
-- The RFID reader is plugged onto the raspberry pi like it is described over here http://geraintw.blogspot.de/2014/01/rfid-and-raspberry-pi.html
+- The RFID reader is plugged at spidev1.0
 - The GCC compiler is installed ```sudo apt-get install build-essential```
 - node-gyp is installed ```npm install -g node-gyp```
 
 ## Installation
-First of all we have to install the C library for Broadcom BCM 2835 as it describe` here
-```
-wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.35.tar.gz
-tar -zxf bcm2835-1.35.tar.gz
-cd bcm2835-1.35
-./configure
-sudo make install
-```
-Then we can install the rc522 rfid nodejs module
-```
-npm install --save rc522-rfid-promise
+npm install --save otaviojr/rc522-rfid-promise
 ```
 
 ## Api
