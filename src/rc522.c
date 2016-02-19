@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "accessor.h"
+#include "spi.h"
 #include "rc522.h"
 
 uint8_t debug = 0;
