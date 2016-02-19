@@ -18,6 +18,8 @@ char rfidChipSerialNumberRecentlyDetected[23];
 char *p;
 int loopCounter;
 
+static char* spi_dev_path;
+
 using namespace v8;
 
 void RunCallback(const FunctionCallbackInfo<Value>& args) {
@@ -42,9 +44,10 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
             return;
         }
 
-        Local<String> path = Local<String>::Cast(args[1]);
-        v8::String::Utf8Value spi_path(path);
-        initRfidReader(*spi_path);
+        v8::String::Utf8Value spi_path(args[1]->ToString());
+        spi_dev_path = *spi_path;
+        initRfidReader(spi_dev_path);
+
         InitRc522();
 
         for (;;) {

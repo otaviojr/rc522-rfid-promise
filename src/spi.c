@@ -11,7 +11,7 @@
 
 #define DEFAULT_SPI_SPEED 5000L
 
-//#define  SPIDEV            "/dev/spidev1.0"
+#define  SPIDEV            "/dev/spidev1.0"
 #define  EXISTMODE         F_OK
 #define  MODE              O_RDWR
 
@@ -49,11 +49,11 @@ int spi_open(const char* spi_dev)
 	rc522_log(LOG_LEVEL_DEBUG,spi_dev);
 	rc522_log(LOG_LEVEL_DEBUG,"\n");
 
-	if(access(spi_dev,EXISTMODE) < 0) {
+	if(access(SPIDEV,EXISTMODE) < 0) {
 		rc522_log(LOG_LEVEL_ERROR,"SPIDEV not found\n");
 		return -1 ;
 	}
-	if((spi_fd = open(spi_dev,MODE)) < 0){
+	if((spi_fd = open(SPIDEV,MODE)) < 0){
 		rc522_log(LOG_LEVEL_ERROR,"SPIDEV not found\n");
 		return -1 ;
 	}
