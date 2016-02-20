@@ -108,6 +108,7 @@ extern "C" {
     void CalulateCRC(uint8_t *pIn ,uint8_t   len,uint8_t *pOut );
     uint8_t ReadRawRC(uint8_t   Address);
     char PcdReset(void);
+    char PcdSetInt(void);
     char PcdRequest(unsigned char req_code,unsigned char *pTagType);
     void PcdAntennaOn(void);
     void PcdAntennaOff(void);
