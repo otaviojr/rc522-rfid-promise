@@ -27,8 +27,7 @@
     "node": ">=0.8.0 <0.13.0"
   },
   "dependencies": {
-    "q": "^1.4.1",
-    "nan": "^2.2.0"
+    "q": "^1.4.1"
   },
   "optionalDependencies": {},
   "gitHead": "",
