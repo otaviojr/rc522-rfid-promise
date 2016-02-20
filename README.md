@@ -21,7 +21,7 @@ With this fork I changed it to use linux's spidev instead, which allows it to wo
 The module is currently only able to read the serial number of the tag which is hold onto the reader.
 
 ## Requirements
-- The RFID reader is plugged at spidev1.0
+- The RFID reader is plugged at spidev
 - The GCC compiler is installed ```sudo apt-get install build-essential```
 - node-gyp is installed ```npm install -g node-gyp```
 
