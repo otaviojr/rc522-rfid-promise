@@ -230,6 +230,7 @@ char PcdSetInt(void)
 {
 	//We will look to idle irq to know when to read the device
 	WriteRawRC(ComIEnReg,0x10);
+	return TAG_OK;
 }
 
 char PcdReset(void)
