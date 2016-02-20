@@ -5,7 +5,8 @@ var child = null;
 
 exports.startListening = function(timeout, custom_opts) {
     opts = {
-      spi: "/dev/spidev1.0"
+      spi: "/dev/spidev0.0",
+      enableLog: 0
     };
 
     for(i in opts){
@@ -14,11 +15,13 @@ exports.startListening = function(timeout, custom_opts) {
       }
     }
 
-    var params = "-D="+opts["spi"];
+    var param_device = "-D="+opts["spi"];
+    var param_log = "-L="+opts["enableLog"];
+
     var deferred = Q.defer();
     var returnValue = 'none';
     var success = false;
-    child = spawn("node", [__dirname + "/" + "rc522_output.js",params]);
+    child = spawn("node", [__dirname + "/" + "rc522_output.js",param_device,param_log]);
     var linereader = readline.createInterface(child.stdout, child.stdin);
 
     linereader.on('line', function(rfidTagSerialNumber) {
@@ -65,7 +68,9 @@ process.once("SIGINT", function() {
 
 // And the exit event shuts down the child.
 process.once("exit", function() {
-    child.kill();
+    if(child){
+      child.kill();
+    }
 });
 
 // This is a somewhat ugly approach, but it has the advantage of working
