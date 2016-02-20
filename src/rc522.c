@@ -229,7 +229,7 @@ void CalulateCRC(uint8_t *pIn ,uint8_t   len,uint8_t *pOut )
 char PcdSetInt(void)
 {
 	//We will look to idle irq to know when to read the device
-	WriteRawRC(ComIEnReg,0x10);
+	WriteRawRC(ComIEnReg,0x70);
 	return TAG_OK;
 }
 
