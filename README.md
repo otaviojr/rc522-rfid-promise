@@ -44,8 +44,10 @@ stopListening()
 ```
 var rc522 = require("rc522-rfid-promise");
 
-rc522.startListening(5000)
-	.then(function(rfidTag){
-    	console.log(rfidTag);
-	});
+rc522.startListening(1000,{
+	spi:"/dev/spidev1.0",
+  enableLog: 0
+}).then(function(rfidTag){
+	console.log("RFID Tag:" + rfidTag);
+});
 ```
