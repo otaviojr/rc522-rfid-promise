@@ -1,8 +1,9 @@
-#define LOG_ENABLED       0
-
 #define LOG_LEVEL_ERROR   1
 #define LOG_LEVEL_INFO    2
 #define LOG_LEVEL_DEBUG   3
+
+extern const char *spi_dev_path;
+extern int log_enabled;
 
 #ifdef __cplusplus
 extern "C" {

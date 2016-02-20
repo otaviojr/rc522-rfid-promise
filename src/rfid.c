@@ -6,10 +6,7 @@
  */
 #include "rfid.h"
 
-
-
-uint8_t buff[MAXRLEN];
-
+static uint8_t buff[MAXRLEN];
 
 tag_stat find_tag(uint16_t * card_type) {
 	tag_stat tmp;
@@ -67,5 +64,3 @@ tag_stat read_tag_str(uint8_t addr, char * str) {
 	}
 	return tmp;
 }
-
-

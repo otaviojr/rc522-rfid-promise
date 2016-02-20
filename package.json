@@ -4,11 +4,12 @@
     "email": "mitchell.parsons@gmail.com"
   },
   "name": "rc522-rfid-promise",
-  "description": "Module to access an rfid reader with rc522 chipset connected to a raspberry pi. Using promises.",
+  "description": "Module to access an rfid reader with rc522 chipset connected to a spidev. Using promises.",
   "keywords": [
     "rfid",
     "rc522",
-    "raspberry"
+    "spidev",
+    "linux"
   ],
   "version": "15.0.3",
   "repository": {
@@ -26,7 +27,8 @@
     "node": ">=0.8.0 <0.13.0"
   },
   "dependencies": {
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "nan": "^2.2.0"
   },
   "optionalDependencies": {},
   "gitHead": "",
