@@ -1,9 +1,9 @@
 {
   "author": {
-    "name": "Mitchell Parsons",
-    "email": "mitchell.parsons@gmail.com"
+    "name": "Otávio Ribeiro",
+    "email": "otavio.ribeiro@gmail.com"
   },
-  "name": "rc522-rfid-promise",
+  "name": "rc522-rfid-promise-spidev",
   "description": "Module to access an rfid reader with rc522 chipset connected to a spidev. Using promises.",
   "keywords": [
     "rfid",
@@ -11,10 +11,10 @@
     "spidev",
     "linux"
   ],
-  "version": "15.0.3",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mitchellparsons/rc522-rfid-promise.git"
+    "url": "https://github.com/otaviojr/rc522-rfid-promise-spidev.git"
   },
   "scripts": {
     "install": "(node-gyp rebuild) || (exit 0)",
@@ -32,7 +32,7 @@
   "optionalDependencies": {},
   "gitHead": "",
   "bugs": {
-    "url": "https://github.com/mitchellparsons/rc522-rfid-promise/issues"
+    "url": "https://github.com/otaviojr/rc522-rfid-promise-spidev/issues"
   },
   "homepage": "",
   "directories": {}
