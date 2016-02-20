@@ -348,7 +348,7 @@ char PcdComMF522(uint8_t   Command,
 	}
 
 	//WriteRawRC(ComIEnReg,irqEn|0x80);
-	//	WriteRawRC(ComIEnReg,irqEn);
+	WriteRawRC(ComIEnReg,irqEn);
 	//ClearBitMask(ComIrqReg,0x80);
 	SetBitMask(FIFOLevelReg,0x80);
 	WriteRawRC(CommandReg,PCD_IDLE);
@@ -369,7 +369,7 @@ char PcdComMF522(uint8_t   Command,
 	{
 		usleep(200);
 		//		bcm2835_delayMicroseconds(200);
-		//n = ReadRawRC(ComIrqReg);
+		n = ReadRawRC(ComIrqReg);
 		i--;
 	}
 	while ((i!=0) && (!(n&0x01)) && (!(n&waitFor)));
