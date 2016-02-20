@@ -11,6 +11,7 @@ void InitRc522(void)
 {
 	rc522_log(LOG_LEVEL_INFO,"InitRc522\n\n");
 	PcdReset();
+	PcdSetInt();
 	PcdAntennaOn();
 }
 
@@ -225,6 +226,12 @@ void CalulateCRC(uint8_t *pIn ,uint8_t   len,uint8_t *pOut )
 	pOut [1] = ReadRawRC(CRCResultRegM);
 }
 
+char PcdSetInt(void)
+{
+	//We will look to idle irq to know when to read the device
+	WriteRawRC(ComIEnReg,0x10);
+}
+
 char PcdReset(void)
 {
 	WriteRawRC(CommandReg,PCD_RESETPHASE);
@@ -339,9 +346,9 @@ char PcdComMF522(uint8_t   Command,
 		break;
 	}
 
-	WriteRawRC(ComIEnReg,irqEn|0x80);
+	//WriteRawRC(ComIEnReg,irqEn|0x80);
 	//	WriteRawRC(ComIEnReg,irqEn);
-	ClearBitMask(ComIrqReg,0x80);
+	//ClearBitMask(ComIrqReg,0x80);
 	SetBitMask(FIFOLevelReg,0x80);
 	WriteRawRC(CommandReg,PCD_IDLE);
 
@@ -361,7 +368,7 @@ char PcdComMF522(uint8_t   Command,
 	{
 		usleep(200);
 		//		bcm2835_delayMicroseconds(200);
-		n = ReadRawRC(ComIrqReg);
+		//n = ReadRawRC(ComIrqReg);
 		i--;
 	}
 	while ((i!=0) && (!(n&0x01)) && (!(n&waitFor)));
