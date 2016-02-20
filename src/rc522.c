@@ -348,7 +348,7 @@ char PcdComMF522(uint8_t   Command,
 	}
 
 	//WriteRawRC(ComIEnReg,irqEn|0x80);
-	WriteRawRC(ComIEnReg,irqEn);
+	//WriteRawRC(ComIEnReg,irqEn);
 	//ClearBitMask(ComIrqReg,0x80);
 	SetBitMask(FIFOLevelReg,0x80);
 	WriteRawRC(CommandReg,PCD_IDLE);
