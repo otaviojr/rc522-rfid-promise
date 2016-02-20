@@ -44,10 +44,19 @@ stopListening()
 ```
 var rc522 = require("rc522-rfid-promise");
 
-rc522.startListening(1000,{
+var read = function(){
+  rc522.startListening({
     spi:"/dev/spidev1.0",
     enableLog: 0
-}).then(function(rfidTag){
-    console.log("RFID Tag:" + rfidTag);
-});
+  },5000)
+    .then(function(rfidTag){
+        console.log("RFID Tag:" + rfidTag);
+        setTimeout(read,10);
+    }, function(){
+        console.log("Timeout - No Card readed");
+        setTimeout(read,10);
+    });
+}
+
+setTimeout(read,10);
 ```
