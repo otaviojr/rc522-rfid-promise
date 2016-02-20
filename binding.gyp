@@ -8,7 +8,6 @@
         "src/rfid.c",
         "src/accessor.cc"
       ],
-      "include_dirs" : ["<!(node -e \"require('nan')\")"],
       "libraries": [
       ]
     }
