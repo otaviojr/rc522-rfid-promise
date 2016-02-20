@@ -3,7 +3,7 @@ var readline = require('readline');
 var Q = require('q');
 var child = null;
 
-exports.startListening = function(timeout, custom_opts) {
+exports.startListening = function(custom_opts,timeout) {
     opts = {
       spi: "/dev/spidev0.0",
       enableLog: 0
