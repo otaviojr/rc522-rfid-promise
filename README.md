@@ -1,4 +1,4 @@
-#rc522-rfid-promise
+#rc522-rfid-promise-spidev
 Module to access an rfid reader with rc522 chipset using linux spidev. Using promises.
 
 ## Fork of
@@ -27,7 +27,7 @@ The module is currently only able to read the serial number of the tag which is 
 
 ## Installation
 ```
-npm install --save otaviojr/rc522-rfid-promise
+npm install --save otaviojr/rc522-rfid-promise-spidev
 ```
 
 ## Api
@@ -42,7 +42,7 @@ stopListening()
 
 ## Usage
 ```
-var rc522 = require("rc522-rfid-promise");
+var rc522 = require("rc522-rfid-promise-spidev");
 
 var read = function(){
   rc522.startListening({
