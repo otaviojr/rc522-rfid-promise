@@ -13,9 +13,9 @@ For a nice and simpler module, working with raspberry pi, please see the origina
 ## Purpose
 This node module is to access RFID reader with a rc522 chipset (e.g. http://amzn.com/B00GYR1KJ8) via SPI interface using the linux spidev.
 
-The original projects works only at raspberry pi, since, they used a broadcom lib to communicate with the spi.
+The original projects only works with raspberry pi, since they used a broadcom library to communicate with the spi port.
 
-At this fork we changed it to use linux spidev instead, working with many other boards like beaglebone.
+With this fork I changed it to use linux's spidev instead, which allows it to work with many other boards like beaglebone.
 
 ## Functionality
 The module is currently only able to read the serial number of the tag which is hold onto the reader.
